@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 10
-  height: 4
+  height: 8
   tile_pf: {fileID: 8150819514606784908, guid: 835b4ea2ba7d55842ba4e7d1f0ba8fd5, type: 3}
   tileContainer: {fileID: 1362078289}
 --- !u!4 &1513518404
@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall_pf: {fileID: 3511140634636843616, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+  lvlData: {fileID: 11400000, guid: ad43d9cf7115e8c4c909dcd5a675e731, type: 2}
 --- !u!1 &1633486938
 GameObject:
   m_ObjectHideFlags: 0

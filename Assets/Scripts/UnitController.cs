@@ -5,25 +5,28 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     private GridController gridController;
-    [SerializeField] private GridObject wall_pf;
+    [SerializeField] private GridUnitLevel_DATA lvlData;
     
     // Start is called before the first frame update
     void Start()
     {
         gridController = GetComponent<GridController>();
 
-        SpawnWalls();
+        SpawnUnits();
     }
 
-    private void SpawnWalls()
+    private void SpawnUnits()
     {
-        GridObject newWall = Instantiate<GridObject>(wall_pf, gridController.GetRandomTile().GetUnitContainerPosition, Quaternion.identity);
+        foreach (var item in lvlData.gridUnits)
+        {
+            GridObject newGridUnit = Instantiate<GridObject>(item.gridUnit_pf, gridController.GetGrid()[new Vector2(item.x, item.y)].GetUnitContainerPosition, Quaternion.identity);
+            newGridUnit.GetComponent<UnitSelectorController>().OnUnitClicked += RefreshUnitLoopOrder;
+        }
+    }
+
+    void RefreshUnitLoopOrder(GridObject unit)
+    {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
