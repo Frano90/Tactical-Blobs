@@ -15,16 +15,5 @@ MonoBehaviour:
   gridUnits:
   - x: 5
     y: 2
-    gridUnit_pf: {fileID: 3511140634636843616, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
-  - x: 1
-    y: 2
-    gridUnit_pf: {fileID: 3511140634636843616, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
-  - x: 2
-    y: 3
-    gridUnit_pf: {fileID: 3511140634636843616, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
-  - x: 7
-    y: 3
-    gridUnit_pf: {fileID: 3511140634636843616, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
-  - x: 1
-    y: 7
-    gridUnit_pf: {fileID: 3511140634636843616, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+    gridUnit_pf: {fileID: 0}
+    beginActive: 0

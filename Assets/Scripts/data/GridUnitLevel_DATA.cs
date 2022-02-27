@@ -14,4 +14,5 @@ public class GridUnitToPlace
 {
   public int x, y;
   public GridObject gridUnit_pf;
+  public bool beginActive;
 }
