@@ -3,31 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit_Pawn : GridObject
+public class Unit_Pawn : Unit_Movement
 {
-    [SerializeField] private LifeSystem lifeSystem;
-    public event Action OnDeath;
-    
-    
-
-    public void Init()
-    {
-        lifeSystem = GetComponent<LifeSystem>();
-    }
-
+    [SerializeField] private int moveRange;
     public override void ExecuteAction()
     {
         print("EJECUTO");
-        
+
+        AskToMove(currentDirection, moveRange);
         //Tengo algo adelante?
-        //Movete para adelante
-        
+        //Si, le pego. No, me muevo
+
     }
 
-    public override void SetParentTile(Tile tile)
-    {
-        
-    }
+    // public override void SetPosOnGrid(Tile tile)
+    // {
+    //     
+    // }
 
     public override void ExecuteReaction()
     {

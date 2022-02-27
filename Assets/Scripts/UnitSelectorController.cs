@@ -33,6 +33,6 @@ public class UnitSelectorController : MonoBehaviour
     public void Reset()
     {
         isClicked = false;
-        selector_img.color = selector_img.color == selected ? notSelected : selected;
+        selector_img.color = notSelected;
     }
 }

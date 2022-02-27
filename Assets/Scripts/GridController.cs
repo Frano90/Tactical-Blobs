@@ -12,10 +12,25 @@ public class GridController : MonoBehaviour
     [SerializeField] private Transform tileContainer;
 
     private Dictionary<Vector2, Tile> grid = new Dictionary<Vector2, Tile>();
+    private Dictionary<GridObject, Vector2> unitsCoordenates = new Dictionary<GridObject, Vector2>();
 
     public Dictionary<Vector2, Tile> GetGrid()
     {
         return grid;
+    }
+    public Dictionary<GridObject, Vector2> GetUnitCoordenates()
+    {
+        return unitsCoordenates;
+    }
+
+    public bool ThisTileExist(int x, int y)
+    {
+        return x >= width || x < 0 || y >= height || y < 0 ? false : true;
+    }
+
+    public void AddNewObjectToTheGrid(GridObject newGridObject, Vector2 pos)
+    {
+        unitsCoordenates.Add(newGridObject, pos);
     }
     void Start()
     {
@@ -61,4 +76,11 @@ public class GridController : MonoBehaviour
         }
     }
 
+    public void UpdateUnitPosition(GridObject unit, Vector2 currentUnitPos, Vector2 desiredDestination)
+    {
+        grid[currentUnitPos].SetOccupied(false);
+        grid[desiredDestination].SetOccupied(true);
+
+        unitsCoordenates[unit] = desiredDestination;
+    }
 }

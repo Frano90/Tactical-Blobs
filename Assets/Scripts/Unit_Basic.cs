@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit_Wall : GridObject
+public class Unit_Basic : GridObject
 {
-    [SerializeField] private LifeSystem lifeSystem;
+    [SerializeField] protected LifeSystem lifeSystem;
     public event Action OnDeath;
 
-    public void Init()
+    public override void Init()
     {
-        lifeSystem = GetComponent<LifeSystem>();
+        lifeSystem = new LifeSystem();
     }
 
     public override void ExecuteAction()
@@ -18,11 +18,11 @@ public class Unit_Wall : GridObject
         
     }
 
-    public override void SetParentTile(Tile tile)
+    public virtual void CheckIfVisualFeedbackActionFinished()
     {
-        
+        OnUnitFinishedAction?.Invoke();
     }
-
+    
     public override void ExecuteReaction()
     {
         

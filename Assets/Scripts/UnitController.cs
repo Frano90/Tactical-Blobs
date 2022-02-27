@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,16 +22,25 @@ public class UnitController : MonoBehaviour
     {
         foreach (var item in lvlData.gridUnits)
         {
-            GridObject newGridUnit = Instantiate<GridObject>(item.gridUnit_pf, gridController.GetGrid()[new Vector2(item.x, item.y)].GetUnitContainerPosition, Quaternion.identity);
+            var tileToSpawn = gridController.GetGrid()[new Vector2(item.x, item.y)];
+            tileToSpawn.SetOccupied(true);
+            
+            
+            GridObject newGridUnit = Instantiate<GridObject>(item.gridUnit_pf,tileToSpawn.GetUnitContainerPosition, Quaternion.identity);
             newGridUnit.GetComponent<UnitSelectorController>().OnUnitSelected += AddUnit;
             newGridUnit.OnUnitFinishedAction += CheckIfCombatIsFinished;
+            newGridUnit.Init();
             
+            gridController.AddNewObjectToTheGrid(newGridUnit, new Vector2(item.x, item.y));
+            
+
         }
     }
 
     
     //Todo esto se puede ir a una clase de combatManager o algo asi
-    
+
+    #region InitLoop
     private Queue<GridObject> inputUnitOrder = new Queue<GridObject>();
     private Queue<GridObject> unitAlreadyActioned = new Queue<GridObject>();
     private bool isTurnLoopPlaying;
@@ -66,6 +76,7 @@ public class UnitController : MonoBehaviour
     }
     private void CallUnitToAction()
     {
+        print("Le toca a la siguiente unidad");
         GridObject currentGridObjectActing = inputUnitOrder.Dequeue();
         currentGridObjectActing.ExecuteAction();
         unitAlreadyActioned.Enqueue(currentGridObjectActing);
@@ -84,6 +95,7 @@ public class UnitController : MonoBehaviour
     }
     void OnFinishTurnLoop()
     {
+        print("Termino el loop");
         ResetGridObjects(unitAlreadyActioned);
         play_btt.interactable = true;
         reset_btt.interactable = true;
@@ -91,5 +103,74 @@ public class UnitController : MonoBehaviour
         
     }
     
+
+    #endregion
+
+    #region LoopInteractions
+
+    public void MoveUnit(GridObject unit, MoveDirection dir, int range)
+    {
+        var currentUnitPos = gridController.GetUnitCoordenates()[unit];
+        Vector2 desiredDestination = Vector2.zero;
+        
+        switch (dir)
+        {
+            case MoveDirection.N:
+                desiredDestination = new Vector2(currentUnitPos.x, currentUnitPos.y + range); 
+                break;
+            case MoveDirection.NE:
+                desiredDestination = new Vector2(currentUnitPos.x + range, currentUnitPos.y + range);
+                break;
+            case MoveDirection.E:
+                print("le sumo papa" + range);
+                print("cuurent x pos " + currentUnitPos.x + " antes");
+                desiredDestination = new Vector2(currentUnitPos.x  + range, currentUnitPos.y);
+                print("cuurent x pos " + desiredDestination.x + " despues");
+                break;
+            case MoveDirection.SE:
+                desiredDestination = new Vector2(currentUnitPos.x + range, currentUnitPos.y - range);
+                break;
+            case MoveDirection.S:
+                desiredDestination = new Vector2(currentUnitPos.x, currentUnitPos.y - range);
+                break;
+            case MoveDirection.SW:
+                desiredDestination = new Vector2(currentUnitPos.x - range, currentUnitPos.y - range);
+                break;
+            case MoveDirection.W:
+                desiredDestination = new Vector2(currentUnitPos.x - range, currentUnitPos.y);
+                break;
+            case MoveDirection.NW:
+                desiredDestination = new Vector2(currentUnitPos.x - range, currentUnitPos.y + range);
+                break;
+        }
+
+        print("la nueva direccion es " + desiredDestination);
+        
+        
+        if (!gridController.ThisTileExist((int) desiredDestination.x, (int) desiredDestination.y))
+        {
+            print("No existe a donde te queres mover");
+            return;
+        }
+        
+        var desiredTile = gridController.GetGrid()[new Vector2(desiredDestination.x, desiredDestination.y)];
+
+        if (desiredTile.IsOccupied)
+        {
+            print("llegue hasta aca");
+            //unit.OnUnitFinishedAction();//Todavia no atacan ni nada. Pierden el turno si se chocan con algo
+        }
+        else
+        {
+            //Actualziar movimiento hecho en la grid
+            gridController.UpdateUnitPosition(unit, currentUnitPos, desiredDestination);
+            unit.GetComponent<Unit_Movement>().Move(desiredTile.GetUnitContainerPosition);
+        }
+        
+        
+
+    }
+
+    #endregion
 
 }

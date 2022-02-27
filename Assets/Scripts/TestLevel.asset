@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: TestLevel
   m_EditorClassIdentifier: 
   gridUnits:
-  - x: 5
+  - x: 7
     y: 2
-    gridUnit_pf: {fileID: 0}
+    gridUnit_pf: {fileID: -7033630973118865684, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+    beginActive: 0
+  - x: 2
+    y: 2
+    gridUnit_pf: {fileID: -7033630973118865684, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+    beginActive: 0
+  - x: 3
+    y: 5
+    gridUnit_pf: {fileID: -7033630973118865684, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
     beginActive: 0
