@@ -10,6 +10,6 @@ public abstract class GridObject : MonoBehaviour
     public abstract void ExecuteAction();
     //public abstract void SetPosOnGrid(Tile tile);
     public abstract void ExecuteReaction();
-    public abstract void Init();
+    //public abstract void Init();
     
 }

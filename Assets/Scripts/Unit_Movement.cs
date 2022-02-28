@@ -5,12 +5,13 @@ using UnityEngine;
 public class Unit_Movement : Unit_Basic
 {
 
+    [SerializeField] protected int moveRange;
     [SerializeField] private AnimationCurve _movementCurve;
     [SerializeField] private float speed = 2;
-    [SerializeField] protected MoveDirection currentDirection;
+    [SerializeField] protected Direction currentDirection;
     Vector3 currentTileDestination = Vector3.zero;
         
-        protected void AskToMove(MoveDirection dir, int moveRange)
+        protected void AskToMove(Direction dir, int moveRange)
         {
             Main.instance.unitController.MoveUnit(this, dir, moveRange);
         }
@@ -33,15 +34,15 @@ public class Unit_Movement : Unit_Basic
             float _current = 0;
             float _target = 1;
 
-            print("la distancia al siguiente es " + Vector3.Distance(transform.position, currentTileDestination));
-            
-            print("yo quiero ir a " + currentTileDestination + " y estoy en " + transform.position);
+            // print("la distancia al siguiente es " + Vector3.Distance(transform.position, currentTileDestination));
+            //
+            // print("yo quiero ir a " + currentTileDestination + " y estoy en " + transform.position);
             
             float time = Vector3.Distance(transform.position, currentTileDestination) / speed;
             
             while (!isMovingfeedbackFinished)
             {
-                print("looping");
+                //print("looping");
                 _current = Mathf.MoveTowards(_current, _target, time * Time.deltaTime);
 
                 transform.position = Vector3.Lerp(transform.position, currentTileDestination, _movementCurve.Evaluate(_current));
@@ -67,7 +68,8 @@ public class Unit_Movement : Unit_Basic
         protected virtual void OnFinishMovement()
         {
             print("termine de moverme");
-            CheckIfVisualFeedbackActionFinished();
+            OnUnitFinishedAction?.Invoke();
+            //CheckIfVisualFeedbackActionFinished();
         }
 
         public override void ExecuteAction()
@@ -88,7 +90,7 @@ public class Unit_Movement : Unit_Basic
        
     }
 
-public enum MoveDirection
+public enum Direction
 {
     N,
     NE,

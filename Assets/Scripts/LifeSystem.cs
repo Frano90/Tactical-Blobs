@@ -8,9 +8,12 @@ public class LifeSystem
 {
     [SerializeField] private int maxHP, currentHP;
 
-    public LifeSystem()
+    public event Action OnDeath;
+    
+    public LifeSystem(int total)
     {
-        currentHP = maxHP;
+        currentHP = total;
+        maxHP = total;
     }
     
     
@@ -22,6 +25,7 @@ public class LifeSystem
 
     public void Damage(int x)
     {
+        Debug.Log("me pegan");
         currentHP -= x;
         if (currentHP <= 0)
         {
@@ -34,5 +38,6 @@ public class LifeSystem
     private void Death()
     {
         Debug.Log("Se murio");
+        OnDeath?.Invoke();
     }
 }

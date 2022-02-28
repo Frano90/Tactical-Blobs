@@ -23,14 +23,12 @@ public class UnitController : MonoBehaviour
         foreach (var item in lvlData.gridUnits)
         {
             var tileToSpawn = gridController.GetGrid()[new Vector2(item.x, item.y)];
-            tileToSpawn.SetOccupied(true);
-            
-            
+
             GridObject newGridUnit = Instantiate<GridObject>(item.gridUnit_pf,tileToSpawn.GetUnitContainerPosition, Quaternion.identity);
             newGridUnit.GetComponent<UnitSelectorController>().OnUnitSelected += AddUnit;
             newGridUnit.OnUnitFinishedAction += CheckIfCombatIsFinished;
-            newGridUnit.Init();
-            
+            tileToSpawn.SetOccupied(true, newGridUnit);
+
             gridController.AddNewObjectToTheGrid(newGridUnit, new Vector2(item.x, item.y));
             
 
@@ -108,48 +106,43 @@ public class UnitController : MonoBehaviour
 
     #region LoopInteractions
 
-    public void MoveUnit(GridObject unit, MoveDirection dir, int range)
+    public void MoveUnit(GridObject unit, Direction dir, int range)
     {
         var currentUnitPos = gridController.GetUnitCoordenates()[unit];
         Vector2 desiredDestination = Vector2.zero;
         
         switch (dir)
         {
-            case MoveDirection.N:
+            case Direction.N:
                 desiredDestination = new Vector2(currentUnitPos.x, currentUnitPos.y + range); 
                 break;
-            case MoveDirection.NE:
+            case Direction.NE:
                 desiredDestination = new Vector2(currentUnitPos.x + range, currentUnitPos.y + range);
                 break;
-            case MoveDirection.E:
-                print("le sumo papa" + range);
-                print("cuurent x pos " + currentUnitPos.x + " antes");
+            case Direction.E:
                 desiredDestination = new Vector2(currentUnitPos.x  + range, currentUnitPos.y);
-                print("cuurent x pos " + desiredDestination.x + " despues");
                 break;
-            case MoveDirection.SE:
+            case Direction.SE:
                 desiredDestination = new Vector2(currentUnitPos.x + range, currentUnitPos.y - range);
                 break;
-            case MoveDirection.S:
+            case Direction.S:
                 desiredDestination = new Vector2(currentUnitPos.x, currentUnitPos.y - range);
                 break;
-            case MoveDirection.SW:
+            case Direction.SW:
                 desiredDestination = new Vector2(currentUnitPos.x - range, currentUnitPos.y - range);
                 break;
-            case MoveDirection.W:
+            case Direction.W:
                 desiredDestination = new Vector2(currentUnitPos.x - range, currentUnitPos.y);
                 break;
-            case MoveDirection.NW:
+            case Direction.NW:
                 desiredDestination = new Vector2(currentUnitPos.x - range, currentUnitPos.y + range);
                 break;
         }
 
-        print("la nueva direccion es " + desiredDestination);
-        
-        
         if (!gridController.ThisTileExist((int) desiredDestination.x, (int) desiredDestination.y))
         {
             print("No existe a donde te queres mover");
+            unit.OnUnitFinishedAction?.Invoke();
             return;
         }
         
@@ -157,8 +150,7 @@ public class UnitController : MonoBehaviour
 
         if (desiredTile.IsOccupied)
         {
-            print("llegue hasta aca");
-            //unit.OnUnitFinishedAction();//Todavia no atacan ni nada. Pierden el turno si se chocan con algo
+            unit.OnUnitFinishedAction();//Todavia no atacan ni nada. Pierden el turno si se chocan con algo
         }
         else
         {
@@ -166,11 +158,82 @@ public class UnitController : MonoBehaviour
             gridController.UpdateUnitPosition(unit, currentUnitPos, desiredDestination);
             unit.GetComponent<Unit_Movement>().Move(desiredTile.GetUnitContainerPosition);
         }
-        
-        
+    }
 
+    public void PassTurn(Unit_Basic unitBasic)
+    {
+        unitBasic.OnUnitFinishedAction?.Invoke();
+    }
+
+    public void AskToAttackTo(GridObject unit, AttackData[] attacks)
+    {
+        print("ataque que se van a hacer " + attacks.Length);
+        var currentUnitPos = gridController.GetUnitCoordenates()[unit];
+
+        Queue<AttackData> affected = new Queue<AttackData>();
+        
+        foreach (var attack in attacks)
+        {
+            Vector2 desiredDestination = Vector2.zero;
+            
+            switch (attack.dir)
+            {
+                case Direction.N:
+                    desiredDestination = new Vector2(currentUnitPos.x, currentUnitPos.y + attack.range); 
+                    break;
+                case Direction.NE:
+                    desiredDestination = new Vector2(currentUnitPos.x + attack.range, currentUnitPos.y + attack.range);
+                    break;
+                case Direction.E:
+                    desiredDestination = new Vector2(currentUnitPos.x  + attack.range, currentUnitPos.y);
+                    break;
+                case Direction.SE:
+                    desiredDestination = new Vector2(currentUnitPos.x + attack.range, currentUnitPos.y - attack.range);
+                    break;
+                case Direction.S:
+                    desiredDestination = new Vector2(currentUnitPos.x, currentUnitPos.y - attack.range);
+                    break;
+                case Direction.SW:
+                    desiredDestination = new Vector2(currentUnitPos.x - attack.range, currentUnitPos.y - attack.range);
+                    break;
+                case Direction.W:
+                    desiredDestination = new Vector2(currentUnitPos.x - attack.range, currentUnitPos.y);
+                    break;
+                case Direction.NW:
+                    desiredDestination = new Vector2(currentUnitPos.x - attack.range, currentUnitPos.y + attack.range);
+                    break;
+            }
+            
+            if (!gridController.ThisTileExist((int) desiredDestination.x, (int) desiredDestination.y))
+            {
+                print("No existe a donde queres atacar");
+                continue;
+            }
+            
+            var desiredTile = gridController.GetGrid()[new Vector2(desiredDestination.x, desiredDestination.y)];
+            
+            AttackData newAttackData = new AttackData();
+            newAttackData.damage = attack.damage;
+            newAttackData.range = attack.range;
+            newAttackData.target = desiredTile.GetObjectInTile;
+            newAttackData.dir = attack.dir;
+            
+            affected.Enqueue(newAttackData);
+            
+            //unit.GetComponent<Unit_Melee_Basic>().Attack(desiredTile.GetObjectInTile, attack.damage);
+
+        }
+        
+        unit.GetComponent<Unit_Melee_Basic>().Attack(affected);
+        
     }
 
     #endregion
 
+
+    public void RemoveObjectFromGrid(GridObject objectToRemove)
+    {
+        gridController.RemoveObjectFromGrid(objectToRemove);
+        var tileToLiberatePos = gridController.GetUnitCoordenates()[objectToRemove];
+    }
 }

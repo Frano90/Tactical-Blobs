@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour
 {
     private int xPos, yPos;
     private bool isOccupied;
+    private GridObject _gridObject;
     [SerializeField] private Material baseMat, offsetMat;
     [SerializeField] private Transform unitContainerPosition;
 
@@ -23,10 +24,13 @@ public class Tile : MonoBehaviour
         GetComponentInChildren<MeshRenderer>().material = isOffSet ? baseMat : offsetMat;
     }
 
-    public void SetOccupied(bool b)
+    public void SetOccupied(bool b, GridObject objectOnGrid)
     {
+        _gridObject = objectOnGrid;
         isOccupied = b;
     }
+
+    public GridObject GetObjectInTile => _gridObject;
 
     public bool IsOccupied => isOccupied;
 }

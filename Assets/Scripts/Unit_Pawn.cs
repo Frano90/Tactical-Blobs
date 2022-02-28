@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Unit_Pawn : Unit_Movement
 {
-    [SerializeField] private int moveRange;
+    
     public override void ExecuteAction()
     {
         print("EJECUTO");

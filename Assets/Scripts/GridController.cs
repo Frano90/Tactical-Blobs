@@ -78,9 +78,16 @@ public class GridController : MonoBehaviour
 
     public void UpdateUnitPosition(GridObject unit, Vector2 currentUnitPos, Vector2 desiredDestination)
     {
-        grid[currentUnitPos].SetOccupied(false);
-        grid[desiredDestination].SetOccupied(true);
+        grid[currentUnitPos].SetOccupied(false, null);
+        grid[desiredDestination].SetOccupied(true, unit);
 
         unitsCoordenates[unit] = desiredDestination;
+    }
+
+    public void RemoveObjectFromGrid(GridObject gridObject)
+    {
+        var tileCoordenateToLiberate = GetUnitCoordenates()[gridObject];
+        var tile = grid[tileCoordenateToLiberate];
+        tile.SetOccupied(false, null);
     }
 }

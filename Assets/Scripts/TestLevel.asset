@@ -13,15 +13,67 @@ MonoBehaviour:
   m_Name: TestLevel
   m_EditorClassIdentifier: 
   gridUnits:
-  - x: 7
-    y: 2
-    gridUnit_pf: {fileID: -7033630973118865684, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+  - x: 4
+    y: 4
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 4
+    y: 5
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 4
+    y: 7
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 4
+    y: 6
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
     beginActive: 0
   - x: 2
-    y: 2
-    gridUnit_pf: {fileID: -7033630973118865684, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+    y: 6
+    gridUnit_pf: {fileID: -5129531711841706782, guid: 9614b9ed39d721542aabbd9c0a7275e1, type: 3}
+    beginActive: 0
+  - x: 2
+    y: 3
+    gridUnit_pf: {fileID: -5129531711841706782, guid: 9614b9ed39d721542aabbd9c0a7275e1, type: 3}
+    beginActive: 0
+  - x: 2
+    y: 4
+    gridUnit_pf: {fileID: -5129531711841706782, guid: 2c52d1cdfee938f4596161f0bb241218, type: 3}
+    beginActive: 0
+  - x: 2
+    y: 5
+    gridUnit_pf: {fileID: -5129531711841706782, guid: 2c52d1cdfee938f4596161f0bb241218, type: 3}
     beginActive: 0
   - x: 3
+    y: 3
+    gridUnit_pf: {fileID: -5129531711841706782, guid: 9614b9ed39d721542aabbd9c0a7275e1, type: 3}
+    beginActive: 0
+  - x: 7
+    y: 3
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 7
     y: 5
-    gridUnit_pf: {fileID: -7033630973118865684, guid: 0166bffed62803c4cabe62461f9b7f70, type: 3}
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 7
+    y: 7
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 5
+    y: 4
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 8
+    y: 3
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 8
+    y: 4
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
+    beginActive: 0
+  - x: 6
+    y: 6
+    gridUnit_pf: {fileID: -5119896554433539938, guid: d6af04d28267bab468b6c0485ed78dc3, type: 3}
     beginActive: 0
